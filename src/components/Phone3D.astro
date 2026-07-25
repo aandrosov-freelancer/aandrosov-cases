@@ -1,0 +1,315 @@
+---
+---
+
+<div class="phone-3d-wrapper">
+  <div class="phone-3d-container" id="phone-container">
+    <div class="phone-loading" id="phone-loading" aria-label="Loading 3D model">
+      <div class="loading-spinner"></div>
+    </div>
+    <canvas id="phone-canvas" class="phone-canvas"></canvas>
+  </div>
+  <div class="model-credit">
+    This work is based on <a href="https://sketchfab.com/3d-models/iphone-14-pro-5cb0778041a34f09b409a38c687bb1d4" target="_blank" rel="noopener noreferrer">"Iphone 14 Pro"</a> by <a href="https://sketchfab.com/misterdude" target="_blank" rel="noopener noreferrer">mister dude</a> licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC-BY-4.0</a>
+  </div>
+</div>
+
+<script>
+  import * as THREE from 'three';
+  import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+  import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+  function initPhone3D() {
+    const container = document.getElementById('phone-container');
+    const canvas = document.getElementById('phone-canvas') as HTMLCanvasElement | null;
+    const loadingEl = document.getElementById('phone-loading');
+
+    if (!container || !canvas) return;
+
+    // Dimensions
+    const getContainerSize = () => {
+      const rect = container.getBoundingClientRect();
+      return {
+        width: rect.width || 400,
+        height: rect.height || 500,
+      };
+    };
+
+    let { width, height } = getContainerSize();
+
+    // Scene
+    const scene = new THREE.Scene();
+
+    // Camera
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+    camera.position.set(0, 0, 4.2);
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: 'high-performance',
+    });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.3;
+
+    // 360-degree Omnidirectional Studio Lighting
+    // Strong uniform ambient light for 360 brightness
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x888888, 3.0);
+    scene.add(hemiLight);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.8);
+    scene.add(ambientLight);
+
+    // Front-Right-Top Light
+    const frontRightLight = new THREE.DirectionalLight(0xffffff, 2.5);
+    frontRightLight.position.set(5, 5, 5);
+    scene.add(frontRightLight);
+
+    // Back-Left-Top Light (illuminates back cover when rotated)
+    const backLeftLight = new THREE.DirectionalLight(0xffffff, 2.5);
+    backLeftLight.position.set(-5, 5, -5);
+    scene.add(backLeftLight);
+
+    // Front-Left-Bottom Light
+    const frontLeftLight = new THREE.DirectionalLight(0xffffff, 2.0);
+    frontLeftLight.position.set(-5, -3, 5);
+    scene.add(frontLeftLight);
+
+    // Back-Right-Bottom Light
+    const backRightLight = new THREE.DirectionalLight(0xffffff, 2.0);
+    backRightLight.position.set(5, -3, -5);
+    scene.add(backRightLight);
+
+    // Accent Blue Rim Light
+    const blueRimLight = new THREE.DirectionalLight(0x2563eb, 2.0);
+    blueRimLight.position.set(-4, 4, 2);
+    scene.add(blueRimLight);
+
+    // Controls
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enableZoom = false;
+    controls.enablePan = false;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 1.5;
+    controls.rotateSpeed = 0.8;
+
+    // Pause auto-rotate on drag
+    controls.addEventListener('start', () => {
+      controls.autoRotate = false;
+    });
+
+    const modelGroup = new THREE.Group();
+    scene.add(modelGroup);
+
+    // Load GLTF Model
+    const loader = new GLTFLoader();
+    loader.load(
+      '/models/hero-model/hero-model.gltf',
+      (gltf) => {
+        const model = gltf.scene;
+
+        // Traverse meshes to fix materials & textures color space
+        model.traverse((child) => {
+          if ((child as THREE.Mesh).isMesh) {
+            const mesh = child as THREE.Mesh;
+            if (mesh.material) {
+              const mat = mesh.material as THREE.MeshStandardMaterial;
+              
+              // Ensure correct color space for textures
+              if (mat.map) mat.map.colorSpace = THREE.SRGBColorSpace;
+              if (mat.emissiveMap) mat.emissiveMap.colorSpace = THREE.SRGBColorSpace;
+
+              // Ensure depth write and opaque rendering
+              mat.transparent = false;
+              mat.depthWrite = true;
+              mat.depthTest = true;
+              mat.needsUpdate = true;
+            }
+          }
+        });
+
+        // Center model geometry
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+
+        // Normalize size
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 2.4 / maxDim;
+        model.scale.setScalar(scale);
+
+        // Center position
+        model.position.sub(center.multiplyScalar(scale));
+
+        // Initial position: screen facing directly towards user
+        modelGroup.rotation.y = THREE.MathUtils.degToRad(180);
+
+        modelGroup.add(model);
+
+        // Hide loader
+        if (loadingEl) {
+          loadingEl.style.opacity = '0';
+          setTimeout(() => {
+            loadingEl.style.display = 'none';
+          }, 300);
+        }
+      },
+      undefined,
+      (error) => {
+        console.error('Error loading 3D model:', error);
+        if (loadingEl) {
+          loadingEl.innerHTML = '<span class="loading-error">3D Model</span>';
+        }
+      }
+    );
+
+    // Animation Loop
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const elapsedTime = clock.getElapsedTime();
+
+      // Subtle float animation
+      if (modelGroup) {
+        modelGroup.position.y = Math.sin(elapsedTime * 1.5) * 0.08;
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // Resize Handler
+    function handleResize() {
+      if (!container || !renderer || !camera) return;
+      const { width: newW, height: newH } = getContainerSize();
+      camera.aspect = newW / newH;
+      camera.updateProjectionMatrix();
+      renderer.setSize(newW, newH);
+    }
+
+    window.addEventListener('resize', handleResize);
+  }
+
+  // Run on DOM load / page navigation
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPhone3D);
+  } else {
+    initPhone3D();
+  }
+</script>
+
+<style>
+  .phone-3d-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .phone-3d-container {
+    width: 100%;
+    height: 480px;
+    position: relative;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .phone-3d-container:active {
+    cursor: grabbing;
+  }
+
+  .phone-canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    outline: none;
+  }
+
+  .phone-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 10, 10, 0.4);
+    backdrop-filter: blur(4px);
+    border-radius: var(--radius-lg);
+    z-index: 2;
+    transition: opacity 0.3s ease;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--color-accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  .loading-error {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .model-credit {
+    margin-top: var(--space-xs);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    text-align: center;
+    line-height: 1.4;
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+  }
+
+  .model-credit:hover {
+    opacity: 1;
+  }
+
+  .model-credit a {
+    color: var(--color-text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .model-credit a:hover {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 992px) {
+    .phone-3d-container {
+      height: 420px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .phone-3d-container {
+      height: 360px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .phone-3d-container {
+      height: 300px;
+    }
+  }
+</style>
