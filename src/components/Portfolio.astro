@@ -1,0 +1,154 @@
+---
+import { getLangFromLocale, useTranslations } from '../i18n/utils'
+
+const lang = getLangFromLocale(Astro.currentLocale)
+const t = useTranslations(lang)
+
+const projects = [
+  {
+    title: 'FitTrack',
+    categoryKey: 'portfolio.cat.health' as const,
+    image: '/images/portfolio-fitness.png',
+  },
+  {
+    title: 'FinWallet',
+    categoryKey: 'portfolio.cat.finance' as const,
+    image: '/images/portfolio-finance.png',
+  },
+  {
+    title: 'FoodDash',
+    categoryKey: 'portfolio.cat.delivery' as const,
+    image: '/images/portfolio-food.png',
+  },
+  {
+    title: 'MindFlow',
+    categoryKey: 'portfolio.cat.wellness' as const,
+    image: '/images/portfolio-wellness.png',
+  },
+  {
+    title: 'Wave',
+    categoryKey: 'portfolio.cat.social' as const,
+    image: '/images/portfolio-social.png',
+  },
+  {
+    title: 'Wanderly',
+    categoryKey: 'portfolio.cat.travel' as const,
+    image: '/images/portfolio-travel.png',
+  },
+]
+---
+
+<section id="portfolio" class="section portfolio">
+  <div class="container">
+    <span class="section-label reveal">{t('portfolio.label')}</span>
+    <h2 class="section-title reveal reveal-delay-1">{t('portfolio.title')}</h2>
+  </div>
+
+  <div class="portfolio-track reveal reveal-delay-2">
+    {projects.map((project) => (
+      <article class="portfolio-card">
+        <div class="portfolio-image-wrapper">
+          <img
+            src={project.image}
+            alt={`${t('portfolio.altPrefix')} ${project.title}`}
+            class="portfolio-image"
+            width="400"
+            height="400"
+            loading="lazy"
+          />
+        </div>
+        <div class="portfolio-info">
+          <span class="portfolio-category">{t(project.categoryKey)}</span>
+          <h3 class="portfolio-title">{project.title}</h3>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .portfolio {
+    overflow: hidden;
+  }
+
+  .portfolio-track {
+    display: flex;
+    gap: var(--space-xl);
+    padding-inline: var(--container-padding);
+    padding-bottom: var(--space-xl);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+
+  .portfolio-track::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .portfolio-track::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .portfolio-track::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 2px;
+  }
+
+  .portfolio-card {
+    flex: 0 0 320px;
+    scroll-snap-align: start;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    transition: border-color var(--transition-base), transform var(--transition-base);
+  }
+
+  .portfolio-card:hover {
+    border-color: var(--color-border-hover);
+    transform: translateY(-4px);
+  }
+
+  .portfolio-image-wrapper {
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+
+  .portfolio-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .portfolio-card:hover .portfolio-image {
+    transform: scale(1.04);
+  }
+
+  .portfolio-info {
+    padding: var(--space-lg);
+  }
+
+  .portfolio-category {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-xs);
+  }
+
+  .portfolio-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  @media (max-width: 768px) {
+    .portfolio-card {
+      flex: 0 0 260px;
+    }
+  }
+</style>

@@ -1,0 +1,97 @@
+---
+import { getLangFromLocale, useTranslations } from '../i18n/utils'
+
+const lang = getLangFromLocale(Astro.currentLocale)
+const t = useTranslations(lang)
+
+const principles = [
+  {
+    icon: '◆',
+    titleKey: 'principles.quality.title' as const,
+    descKey: 'principles.quality.desc' as const,
+  },
+  {
+    icon: '○',
+    titleKey: 'principles.simplicity.title' as const,
+    descKey: 'principles.simplicity.desc' as const,
+  },
+  {
+    icon: '△',
+    titleKey: 'principles.responsibility.title' as const,
+    descKey: 'principles.responsibility.desc' as const,
+  },
+  {
+    icon: '□',
+    titleKey: 'principles.growth.title' as const,
+    descKey: 'principles.growth.desc' as const,
+  },
+]
+---
+
+<section id="principles" class="section principles">
+  <div class="container">
+    <span class="section-label reveal">{t('principles.label')}</span>
+    <h2 class="section-title reveal reveal-delay-1">{t('principles.title')}</h2>
+
+    <div class="principles-grid">
+      {principles.map((principle, index) => (
+        <article class={`principle-card reveal reveal-delay-${index + 1}`}>
+          <span class="principle-icon" aria-hidden="true">{principle.icon}</span>
+          <h3 class="principle-title">{t(principle.titleKey)}</h3>
+          <p class="principle-description">{t(principle.descKey)}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .principle-card {
+    padding: var(--space-2xl);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: border-color var(--transition-base), transform var(--transition-base);
+  }
+
+  .principle-card:hover {
+    border-color: var(--color-border-hover);
+    transform: translateY(-2px);
+  }
+
+  .principle-icon {
+    display: inline-block;
+    font-size: var(--font-size-xl);
+    color: var(--color-accent);
+    margin-bottom: var(--space-lg);
+    opacity: 0.8;
+  }
+
+  .principle-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-md);
+  }
+
+  .principle-description {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-normal);
+  }
+
+  @media (max-width: 768px) {
+    .principles-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .principle-card {
+      padding: var(--space-xl);
+    }
+  }
+</style>

@@ -1,0 +1,117 @@
+---
+import { getLangFromLocale, useTranslations, getAlternateLangPath, getAlternateLang } from '../i18n/utils'
+import { languages } from '../i18n/translations'
+
+const lang = getLangFromLocale(Astro.currentLocale)
+const t = useTranslations(lang)
+const alternateLang = getAlternateLang(lang)
+const alternatePath = getAlternateLangPath(lang)
+---
+
+<header class="header">
+  <div class="header-inner container">
+    <a href={lang === 'ru' ? '/' : '/en/'} class="header-logo">A.A</a>
+    <nav class="header-nav" aria-label={t('nav.ariaLabel')}>
+      <a href="#portfolio" class="header-link">{t('nav.portfolio')}</a>
+      <a href="#about" class="header-link">{t('nav.about')}</a>
+      <a href="#principles" class="header-link">{t('nav.principles')}</a>
+      <a href="#contact" class="header-link">{t('nav.contact')}</a>
+      <a href={alternatePath} class="header-lang" aria-label={`Switch to ${languages[alternateLang]}`}>
+        {alternateLang.toUpperCase()}
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: var(--header-height);
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .header-logo {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--color-text-primary);
+    transition: color var(--transition-fast);
+  }
+
+  .header-logo:hover {
+    color: var(--color-accent);
+  }
+
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+  }
+
+  .header-link {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
+    position: relative;
+  }
+
+  .header-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--color-accent);
+    transition: width var(--transition-base);
+  }
+
+  .header-link:hover {
+    color: var(--color-text-primary);
+  }
+
+  .header-link:hover::after {
+    width: 100%;
+  }
+
+  .header-lang {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    padding: 4px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    letter-spacing: var(--letter-spacing-wide);
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .header-lang:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-accent);
+  }
+
+  @media (max-width: 768px) {
+    .header-nav {
+      gap: var(--space-md);
+    }
+
+    .header-link {
+      font-size: var(--font-size-xs);
+    }
+  }
+</style>

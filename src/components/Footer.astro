@@ -1,0 +1,45 @@
+---
+import { getLangFromLocale, useTranslations } from '../i18n/utils'
+
+const lang = getLangFromLocale(Astro.currentLocale)
+const t = useTranslations(lang)
+---
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p class="footer-copy">© {new Date().getFullYear()} {t('footer.copy')}</p>
+    <p class="footer-note">{t('footer.note')}</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: var(--space-2xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .footer-note {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    letter-spacing: var(--letter-spacing-wide);
+  }
+
+  @media (max-width: 768px) {
+    .footer-inner {
+      flex-direction: column;
+      gap: var(--space-sm);
+      text-align: center;
+    }
+  }
+</style>
