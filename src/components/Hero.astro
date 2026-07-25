@@ -132,4 +132,36 @@ const t = useTranslations(lang)
       right: -20%;
     }
   }
+
+  @media (max-width: 480px) {
+    .hero {
+      min-height: auto;
+      padding-top: calc(var(--header-height) + var(--space-3xl));
+      padding-bottom: var(--space-3xl);
+    }
+
+    .hero-greeting {
+      font-size: var(--font-size-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .hero-subtitle {
+      font-size: var(--font-size-sm);
+      margin-bottom: var(--space-xl);
+    }
+
+    .hero-btn {
+      padding: 12px 24px;
+      font-size: var(--font-size-xs);
+      width: 100%;
+      justify-content: center;
+    }
+
+    .hero-glow {
+      width: 200px;
+      height: 200px;
+      top: 5%;
+      right: -30%;
+    }
+  }
 </style>

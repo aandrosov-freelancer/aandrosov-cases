@@ -137,5 +137,44 @@ const t = useTranslations(lang)
       width: 100%;
       max-width: 320px;
     }
+
+    .contact-title {
+      font-size: var(--font-size-3xl);
+    }
+
+    .contact-subtitle {
+      font-size: var(--font-size-base);
+      margin-bottom: var(--space-2xl);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .contact-link {
+      max-width: 100%;
+      padding: var(--space-xl) var(--space-lg);
+      flex-direction: row;
+      gap: var(--space-md);
+      min-width: 0;
+    }
+
+    .contact-icon {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 0;
+      flex-shrink: 0;
+    }
+
+    .contact-link-label {
+      font-size: var(--font-size-sm);
+    }
+
+    .contact-link-handle {
+      word-break: break-all;
+      text-align: left;
+    }
+
+    .contact-subtitle {
+      font-size: var(--font-size-sm);
+    }
   }
 </style>

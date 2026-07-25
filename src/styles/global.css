@@ -196,9 +196,29 @@ ul, ol {
     --font-size-5xl: 2.25rem;
     --font-size-4xl: 2rem;
     --font-size-3xl: 1.5rem;
+    --font-size-2xl: 1.25rem;
   }
 
   .section {
     padding-block: var(--space-4xl);
+  }
+
+  .section-title {
+    margin-bottom: var(--space-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --container-padding: var(--space-md);
+    --font-size-5xl: 1.875rem;
+    --font-size-4xl: 1.625rem;
+    --font-size-3xl: 1.25rem;
+    --font-size-2xl: 1.125rem;
+    --header-height: 56px;
+  }
+
+  .section {
+    padding-block: var(--space-3xl);
   }
 }

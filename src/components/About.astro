@@ -140,5 +140,54 @@ const t = useTranslations(lang)
     .about-stats {
       gap: var(--space-xl);
     }
+
+    .about-title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .about-text {
+      margin-bottom: var(--space-xl);
+    }
+
+    .about-text p {
+      font-size: var(--font-size-sm);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .about-photo-wrapper {
+      max-width: 220px;
+    }
+
+    .about-photo-border {
+      display: none;
+    }
+
+    .about-role {
+      margin-bottom: var(--space-lg);
+    }
+
+    .about-text {
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+
+    .about-text p {
+      font-size: var(--font-size-sm);
+      line-height: 1.5;
+    }
+
+    .about-stats {
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    .about-stat-number {
+      font-size: var(--font-size-xl);
+    }
+
+    .about-stat-label {
+      font-size: var(--font-size-xs);
+    }
   }
 </style>
