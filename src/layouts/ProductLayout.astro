@@ -1,0 +1,501 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+
+interface Props {
+  title: string
+  description: string
+  category: string
+  image: string
+  role?: string
+  year?: string
+  client?: string
+  tags?: string[]
+  appStoreUrl?: string
+  googlePlayUrl?: string
+  demoUrl?: string
+  lang?: 'ru' | 'en'
+  prevProject?: { id: string; title: string; lang: 'ru' | 'en' } | null
+  nextProject?: { id: string; title: string; lang: 'ru' | 'en' } | null
+}
+
+const {
+  title,
+  description,
+  category,
+  image,
+  role,
+  year,
+  client,
+  tags = [],
+  appStoreUrl,
+  googlePlayUrl,
+  demoUrl,
+  lang = 'ru',
+  prevProject,
+  nextProject,
+} = Astro.props
+
+const homePath = lang === 'ru' ? '/#portfolio' : '/en/#portfolio'
+const backLabel = lang === 'ru' ? '← Назад к портфолио' : '← Back to portfolio'
+const roleLabel = lang === 'ru' ? 'Роль в проекте' : 'Role'
+const yearLabel = lang === 'ru' ? 'Год выпуска' : 'Year'
+const clientLabel = lang === 'ru' ? 'Заказчик' : 'Client'
+const techLabel = lang === 'ru' ? 'Технологии' : 'Tech Stack'
+const linksLabel = lang === 'ru' ? 'Ссылки на проект' : 'Project Links'
+const prevLabel = lang === 'ru' ? 'Предыдущий проект' : 'Previous project'
+const nextLabel = lang === 'ru' ? 'Следующий проект' : 'Next project'
+
+const getProjectUrl = (id: string, projectLang: 'ru' | 'en') => {
+  const cleanId = id.replace(/^(ru|en)\//, '')
+  return projectLang === 'ru' ? `/portfolio/${cleanId}` : `/portfolio/en/${cleanId}`
+}
+---
+
+<BaseLayout title={`${title} — ${category}`} description={description}>
+  <Header />
+
+  <main class="product-page">
+    <!-- Background subtle glow -->
+    <div class="product-glow" aria-hidden="true"></div>
+
+    <article class="container">
+      <!-- Navigation top bar -->
+      <nav class="product-nav reveal">
+        <a href={homePath} class="back-link">
+          {backLabel}
+        </a>
+      </nav>
+
+      <!-- Header / Hero section -->
+      <header class="product-header reveal reveal-delay-1">
+        <span class="product-category">{category}</span>
+        <h1 class="product-title">{title}</h1>
+        <p class="product-description">{description}</p>
+      </header>
+
+      <!-- Metadata & specs bar -->
+      <section class="product-specs reveal reveal-delay-2" aria-label="Project Specs">
+        <div class="specs-grid">
+          {role && (
+            <div class="spec-item">
+              <span class="spec-label">{roleLabel}</span>
+              <span class="spec-value">{role}</span>
+            </div>
+          )}
+          {year && (
+            <div class="spec-item">
+              <span class="spec-label">{yearLabel}</span>
+              <span class="spec-value">{year}</span>
+            </div>
+          )}
+          {client && (
+            <div class="spec-item">
+              <span class="spec-label">{clientLabel}</span>
+              <span class="spec-value">{client}</span>
+            </div>
+          )}
+          {tags.length > 0 && (
+            <div class="spec-item spec-item--wide">
+              <span class="spec-label">{techLabel}</span>
+              <div class="tags-list">
+                {tags.map((tag) => (
+                  <span class="tag-pill">{tag}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {(appStoreUrl || googlePlayUrl || demoUrl) && (
+          <div class="specs-actions">
+            <span class="spec-label">{linksLabel}</span>
+            <div class="action-buttons">
+              {appStoreUrl && (
+                <a href={appStoreUrl} target="_blank" rel="noopener noreferrer" class="btn btn--secondary">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.32c.67-.82 1.12-1.96.99-3.1-.97.04-2.14.65-2.83 1.46-.61.71-1.14 1.87-1 3 1.08.08 2.18-.54 2.84-1.36z"/></svg>
+                  App Store
+                </a>
+              )}
+              {googlePlayUrl && (
+                <a href={googlePlayUrl} target="_blank" rel="noopener noreferrer" class="btn btn--secondary">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8L7 4z"/></svg>
+                  Google Play
+                </a>
+              )}
+              {demoUrl && (
+                <a href={demoUrl} target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+                  {lang === 'ru' ? 'Демо' : 'Live Demo'} →
+                </a>
+              )}
+            </div>
+          </div>
+        )}
+      </section>
+
+      <!-- Main Showcase Image -->
+      <div class="product-media reveal reveal-delay-3">
+        <div class="image-frame">
+          <img src={image} alt={title} class="product-image" loading="eager" />
+        </div>
+      </div>
+
+      <!-- Main Content Container -->
+      <section class="product-body prose reveal reveal-delay-4">
+        <slot />
+      </section>
+
+      <!-- Footer Navigation (Prev / Next project) -->
+      {(prevProject || nextProject) && (
+        <nav class="product-footer-nav reveal" aria-label="Project Navigation">
+          {prevProject ? (
+            <a href={getProjectUrl(prevProject.id, prevProject.lang)} class="nav-card nav-card--prev">
+              <span class="nav-card-label">{prevLabel}</span>
+              <span class="nav-card-title">← {prevProject.title}</span>
+            </a>
+          ) : <div />}
+
+          {nextProject ? (
+            <a href={getProjectUrl(nextProject.id, nextProject.lang)} class="nav-card nav-card--next">
+              <span class="nav-card-label">{nextLabel}</span>
+              <span class="nav-card-title">{nextProject.title} →</span>
+            </a>
+          ) : <div />}
+        </nav>
+      )}
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .product-page {
+    position: relative;
+    padding-top: calc(var(--header-height) + var(--space-2xl));
+    padding-bottom: var(--space-5xl);
+    overflow: hidden;
+  }
+
+  .product-glow {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, rgba(10, 10, 10, 0) 70%);
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .product-nav {
+    margin-bottom: var(--space-xl);
+    position: relative;
+    z-index: 1;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .back-link:hover {
+    color: var(--color-accent);
+    transform: translateX(-4px);
+  }
+
+  /* Product Header */
+  .product-header {
+    margin-bottom: var(--space-2xl);
+    position: relative;
+    z-index: 1;
+  }
+
+  .product-category {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-sm);
+  }
+
+  .product-title {
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-md);
+  }
+
+  .product-description {
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-normal);
+    color: var(--color-text-secondary);
+    max-width: 800px;
+  }
+
+  /* Specs Grid */
+  .product-specs {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    margin-bottom: var(--space-3xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    position: relative;
+    z-index: 1;
+  }
+
+  .specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-xl);
+  }
+
+  .spec-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .spec-item--wide {
+    grid-column: 1 / -1;
+  }
+
+  .spec-label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--color-text-muted);
+  }
+
+  .spec-value {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+  }
+
+  .tag-pill {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+  }
+
+  .specs-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+  }
+
+  .btn--primary {
+    background: var(--color-accent);
+    color: #ffffff;
+  }
+
+  .btn--primary:hover {
+    background: var(--color-accent-hover);
+  }
+
+  .btn--secondary {
+    background: var(--color-bg-elevated);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+  }
+
+  .btn--secondary:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-border);
+  }
+
+  /* Product Media Showcase */
+  .product-media {
+    margin-bottom: var(--space-4xl);
+    position: relative;
+    z-index: 1;
+  }
+
+  .image-frame {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .product-image {
+    width: 100%;
+    max-height: 600px;
+    object-fit: cover;
+  }
+
+  /* Prose / Markdown Body styling */
+  .prose {
+    max-width: 800px;
+    margin-inline: auto;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-lg);
+    line-height: 1.8;
+  }
+
+  .prose :global(h2) {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-top: var(--space-3xl);
+    margin-bottom: var(--space-md);
+    letter-spacing: var(--letter-spacing-tight);
+  }
+
+  .prose :global(h3) {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-top: var(--space-2xl);
+    margin-bottom: var(--space-sm);
+  }
+
+  .prose :global(p) {
+    margin-bottom: var(--space-lg);
+  }
+
+  .prose :global(ul), .prose :global(ol) {
+    margin-bottom: var(--space-lg);
+    padding-left: var(--space-xl);
+    list-style: disc;
+  }
+
+  .prose :global(li) {
+    margin-bottom: var(--space-xs);
+  }
+
+  .prose :global(strong) {
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin-block: var(--space-3xl);
+  }
+
+  .prose :global(blockquote) {
+    border-left: 3px solid var(--color-accent);
+    padding-left: var(--space-lg);
+    margin-block: var(--space-xl);
+    font-style: italic;
+    color: var(--color-text-primary);
+  }
+
+  .prose :global(pre) {
+    background: var(--color-bg-elevated) !important;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    overflow-x: auto;
+    margin-block: var(--space-lg);
+    font-size: var(--font-size-sm);
+  }
+
+  /* Footer project navigation */
+  .product-footer-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    margin-top: var(--space-5xl);
+    padding-top: var(--space-3xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .nav-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-lg);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-base);
+  }
+
+  .nav-card:hover {
+    border-color: var(--color-border-hover);
+    transform: translateY(-2px);
+  }
+
+  .nav-card--next {
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  .nav-card-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+  }
+
+  .nav-card-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  @media (max-width: 768px) {
+    .product-title {
+      font-size: var(--font-size-4xl);
+    }
+
+    .product-footer-nav {
+      grid-template-columns: 1fr;
+    }
+
+    .nav-card--next {
+      text-align: left;
+      align-items: flex-start;
+    }
+  }
+</style>

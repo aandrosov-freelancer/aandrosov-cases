@@ -1,0 +1,52 @@
+---
+import { getCollection, render } from 'astro:content'
+import ProductLayout from '../../layouts/ProductLayout.astro'
+
+export async function getStaticPaths() {
+  const allProjects = await getCollection('portfolio')
+  const ruProjects = allProjects
+    .filter((entry) => entry.data.lang === 'ru')
+    .sort((a, b) => a.data.order - b.data.order)
+
+  return ruProjects.map((entry, index) => {
+    const cleanId = entry.id.replace(/^(ru|en)\//, '')
+    const prevProject = index > 0 ? {
+      id: ruProjects[index - 1].id,
+      title: ruProjects[index - 1].data.title,
+      lang: 'ru' as const,
+    } : null
+    const nextProject = index < ruProjects.length - 1 ? {
+      id: ruProjects[index + 1].id,
+      title: ruProjects[index + 1].data.title,
+      lang: 'ru' as const,
+    } : null
+
+    return {
+      params: { id: cleanId },
+      props: { entry, prevProject, nextProject },
+    }
+  })
+}
+
+const { entry, prevProject, nextProject } = Astro.props
+const { Content } = await render(entry)
+---
+
+<ProductLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  category={entry.data.category}
+  image={entry.data.image}
+  role={entry.data.role}
+  year={entry.data.year}
+  client={entry.data.client}
+  tags={entry.data.tags}
+  appStoreUrl={entry.data.appStoreUrl}
+  googlePlayUrl={entry.data.googlePlayUrl}
+  demoUrl={entry.data.demoUrl}
+  lang="ru"
+  prevProject={prevProject}
+  nextProject={nextProject}
+>
+  <Content />
+</ProductLayout>

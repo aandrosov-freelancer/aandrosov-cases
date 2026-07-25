@@ -81,7 +81,7 @@ export const translations = {
   en: {
     // Meta
     'meta.title': 'Anton Androsov — Mobile Developer',
-    'meta.description': 'Mobile developer portfolio. Building apps that change the world for the better.',
+    'meta.description': 'Mobile developer portfolio. Shaping the future by enhancing the user experience.',
     'meta.ogLocale': 'en_US',
 
     // Header
@@ -93,15 +93,15 @@ export const translations = {
 
     // Hero
     'hero.greeting': "Hi, I'm Anton",
-    'hero.title.line1': 'I build mobile',
-    'hero.title.line2': 'applications',
-    'hero.subtitle': 'Mobile devices shape our future. Every app is a chance to make someone\'s world a little better, one screen at a time.',
-    'hero.cta': 'View projects',
+    'hero.title.line1': 'Changing the world',
+    'hero.title.line2': 'and technology',
+    'hero.subtitle': 'Creating the future through mobile applications',
+    'hero.cta': 'View works',
 
     // Portfolio
     'portfolio.label': 'Portfolio',
     'portfolio.title': 'Featured projects',
-    'portfolio.altPrefix': 'Screenshot of',
+    'portfolio.altPrefix': 'App screenshot',
     'portfolio.cat.health': 'Health',
     'portfolio.cat.finance': 'Finance',
     'portfolio.cat.delivery': 'Delivery',
@@ -114,9 +114,9 @@ export const translations = {
     'about.photoAlt': 'Anton Androsov — mobile developer',
     'about.name': 'Anton Androsov',
     'about.role': 'Mobile Developer',
-    'about.text1': 'For over 5 years I\'ve been building mobile apps that solve real problems. I believe the small screen in your pocket can change the lives of millions — and I work every day to make that happen.',
-    'about.text2': 'I specialize in iOS and Android development. I pay close attention to detail, performance, and user experience. For me, every project is not just code — it\'s a tool that makes someone\'s everyday life a little easier and more enjoyable.',
-    'about.text3': 'My goal is to create digital products that people love to use. Products where every detail is thought through, every interaction is intuitive, and every screen tells its own story.',
+    'about.text1': 'Mobile development is my absolute favorite area in IT, as it gives anyone the ability to dive into a wonderful digital world with just a single tap on a smartphone screen.',
+    'about.text2': 'I am passionate about my craft and value my reputation, bringing digital products all the way to release. With over 2 years of experience, I have worked with major agencies and launched numerous successful digital projects.',
+    'about.text3': 'My goal is to leave a mark with my best creations and change the world for the better.',
     'about.stat.years': 'Years of experience',
     'about.stat.projects': 'Projects',
     'about.stat.users': 'Users',
@@ -124,20 +124,20 @@ export const translations = {
     // Principles
     'principles.label': 'Principles',
     'principles.title': 'What guides me',
-    'principles.quality.title': 'Quality',
-    'principles.quality.desc': 'Every line of code is a promise to the user. I never compromise on quality, even when no one is watching.',
-    'principles.simplicity.title': 'Simplicity',
-    'principles.simplicity.desc': 'The best solution is one that needs no explanation. I strive for elegant simplicity in code and interfaces.',
-    'principles.responsibility.title': 'Responsibility',
-    'principles.responsibility.desc': 'I take full responsibility for the result. My project is my word, and I keep it.',
-    'principles.growth.title': 'Growth',
-    'principles.growth.desc': 'Technology never stands still, and neither do I. Every day I learn, every project makes me stronger as a developer.',
+    'principles.quality.title': 'Simplicity & Minimalism',
+    'principles.quality.desc': 'Users do not need overcomplicated interfaces — they need an intuitive app that solves their real needs.',
+    'principles.simplicity.title': 'Efficiency & Speed',
+    'principles.simplicity.desc': 'I utilize premium tools and workflows that give a distinct competitive edge in speed and quality.',
+    'principles.responsibility.title': 'Clarity & Transparency',
+    'principles.responsibility.desc': 'I maintain clear reporting on all progress and never leave clients in the dark.',
+    'principles.growth.title': 'Diligence & Integrity',
+    'principles.growth.desc': 'I am guided by passion, clarity of mind, and dedication. Mobile development is not just my job — it is my life.',
 
     // Contact
     'contact.label': 'Contact',
-    'contact.title.line1': "Let's create",
-    'contact.title.line2': 'something together',
-    'contact.subtitle': 'Open to new projects and collaboration. Choose a convenient way to reach out.',
+    'contact.title.line1': "Let's drive",
+    'contact.title.line2': 'progress together?',
+    'contact.subtitle': 'Open to new projects and collaboration. Choose your preferred way to get in touch.',
     'contact.telegram.aria': 'Message on Telegram',
     'contact.max.aria': 'Profile on Max',
     'contact.email.aria': 'Send an email',

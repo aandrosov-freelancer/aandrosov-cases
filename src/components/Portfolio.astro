@@ -1,41 +1,19 @@
 ---
+import { getCollection } from 'astro:content'
 import { getLangFromLocale, useTranslations } from '../i18n/utils'
 
 const lang = getLangFromLocale(Astro.currentLocale)
 const t = useTranslations(lang)
 
-const projects = [
-  {
-    title: 'FitTrack',
-    categoryKey: 'portfolio.cat.health' as const,
-    image: '/images/portfolio-fitness.png',
-  },
-  {
-    title: 'FinWallet',
-    categoryKey: 'portfolio.cat.finance' as const,
-    image: '/images/portfolio-finance.png',
-  },
-  {
-    title: 'FoodDash',
-    categoryKey: 'portfolio.cat.delivery' as const,
-    image: '/images/portfolio-food.png',
-  },
-  {
-    title: 'MindFlow',
-    categoryKey: 'portfolio.cat.wellness' as const,
-    image: '/images/portfolio-wellness.png',
-  },
-  {
-    title: 'Wave',
-    categoryKey: 'portfolio.cat.social' as const,
-    image: '/images/portfolio-social.png',
-  },
-  {
-    title: 'Wanderly',
-    categoryKey: 'portfolio.cat.travel' as const,
-    image: '/images/portfolio-travel.png',
-  },
-]
+const allProjects = await getCollection('portfolio')
+const projects = allProjects
+  .filter((entry) => entry.data.lang === lang)
+  .sort((a, b) => a.data.order - b.data.order)
+
+const getProjectLink = (id: string) => {
+  const cleanId = id.replace(/^(ru|en)\//, '')
+  return lang === 'ru' ? `/portfolio/${cleanId}` : `/portfolio/en/${cleanId}`
+}
 ---
 
 <section id="portfolio" class="section portfolio">
@@ -45,24 +23,28 @@ const projects = [
   </div>
 
   <div class="portfolio-track reveal reveal-delay-2">
-    {projects.map((project) => (
-      <article class="portfolio-card">
-        <div class="portfolio-image-wrapper">
-          <img
-            src={project.image}
-            alt={`${t('portfolio.altPrefix')} ${project.title}`}
-            class="portfolio-image"
-            width="400"
-            height="400"
-            loading="lazy"
-          />
-        </div>
-        <div class="portfolio-info">
-          <span class="portfolio-category">{t(project.categoryKey)}</span>
-          <h3 class="portfolio-title">{project.title}</h3>
-        </div>
-      </article>
-    ))}
+    {projects.map((project) => {
+      const link = getProjectLink(project.id)
+      const categoryText = project.data.categoryKey ? t(project.data.categoryKey as any) : project.data.category
+      return (
+        <a href={link} class="portfolio-card">
+          <div class="portfolio-image-wrapper">
+            <img
+              src={project.data.image}
+              alt={`${t('portfolio.altPrefix')} ${project.data.title}`}
+              class="portfolio-image"
+              width="400"
+              height="400"
+              loading="lazy"
+            />
+          </div>
+          <div class="portfolio-info">
+            <span class="portfolio-category">{categoryText}</span>
+            <h3 class="portfolio-title">{project.data.title}</h3>
+          </div>
+        </a>
+      )
+    })}
   </div>
 </section>
 
@@ -104,6 +86,10 @@ const projects = [
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     transition: border-color var(--transition-base), transform var(--transition-base);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
   }
 
   .portfolio-card:hover {
