@@ -33,8 +33,8 @@ const getProjectLink = (id: string) => {
               src={project.data.image}
               alt={`${t('portfolio.altPrefix')} ${project.data.title}`}
               class="portfolio-image"
-              width="400"
-              height="400"
+              width="640"
+              height="360"
               loading="lazy"
             />
           </div>
@@ -79,7 +79,7 @@ const getProjectLink = (id: string) => {
   }
 
   .portfolio-card {
-    flex: 0 0 320px;
+    flex: 0 0 380px;
     scroll-snap-align: start;
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -98,7 +98,7 @@ const getProjectLink = (id: string) => {
   }
 
   .portfolio-image-wrapper {
-    aspect-ratio: 1;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
   }
 

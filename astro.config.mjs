@@ -3,6 +3,8 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://aandrosov-freelancer.github.io',
+  base: '/aandrosov-cases',
   i18n: {
     locales: ['ru', 'en'],
     defaultLocale: 'ru',
