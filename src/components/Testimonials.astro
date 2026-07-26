@@ -21,80 +21,136 @@ const rendered = await Promise.all(
     <span class="section-label reveal">{t('testimonials.label')}</span>
     <h2 class="section-title reveal reveal-delay-1">{t('testimonials.title')}</h2>
 
-    <div class="testimonials-grid">
-      {rendered.map(({ entry, Content }, index) => (
-        <article class={`testimonial-card reveal reveal-delay-${(index % 4) + 1}`}>
-          <div class="testimonial-quote" aria-hidden="true">"</div>
+    <div class="testimonials-wrapper reveal reveal-delay-2">
+      <div class="testimonials-track">
+        {rendered.map(({ entry, Content }) => (
+          <article class="testimonial-card">
+            <div class="testimonial-quote" aria-hidden="true">"</div>
 
-          <div class="testimonial-body">
-            <Content />
-          </div>
+            <div class="testimonial-body">
+              <Content />
+            </div>
 
-          <div class="testimonial-stars" aria-label={`${entry.data.rating} из 5`}>
-            {Array.from({ length: 5 }).map((_, i) => (
-              <span class:list={['star', { 'star--filled': i < entry.data.rating }]}>★</span>
-            ))}
-          </div>
+            <div class="testimonial-stars" aria-label={`${entry.data.rating} из 5`}>
+              {Array.from({ length: 5 }).map((_, i) => (
+                <span class:list={['star', { 'star--filled': i < entry.data.rating }]}>★</span>
+              ))}
+            </div>
 
-          <footer class="testimonial-footer">
-            <div class="testimonial-avatar" aria-hidden="true">
-              {entry.data.avatar ? (
-                <img src={entry.data.avatar} alt="" width="48" height="48" class="testimonial-avatar-img" />
-              ) : (
-                <span class="testimonial-avatar-initials">
-                  {entry.data.author.split(' ').map((w: string) => w[0]).join('').slice(0, 2)}
-                </span>
+            <footer class="testimonial-footer">
+              <div class="testimonial-avatar" aria-hidden="true">
+                {entry.data.avatar ? (
+                  <img src={entry.data.avatar} alt="" width="48" height="48" class="testimonial-avatar-img" />
+                ) : (
+                  <span class="testimonial-avatar-initials">
+                    {entry.data.author.split(' ').map((w: string) => w[0]).join('').slice(0, 2)}
+                  </span>
+                )}
+              </div>
+              <div class="testimonial-author-info">
+                <span class="testimonial-author">{entry.data.author}</span>
+                <span class="testimonial-role">{entry.data.role}</span>
+              </div>
+              {entry.data.projectUrl && (
+                <a
+                  href={entry.data.projectUrl}
+                  class="testimonial-project"
+                  aria-label={`${t('testimonials.project')}: ${entry.data.author}`}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                    <line x1="8" y1="21" x2="16" y2="21" />
+                    <line x1="12" y1="17" x2="12" y2="21" />
+                  </svg>
+                  <span>{t('testimonials.project')}</span>
+                </a>
               )}
-            </div>
-            <div class="testimonial-author-info">
-              <span class="testimonial-author">{entry.data.author}</span>
-              <span class="testimonial-role">{entry.data.role}</span>
-            </div>
-            {entry.data.projectUrl && (
-              <a
-                href={entry.data.projectUrl}
-                class="testimonial-project"
-                aria-label={`${t('testimonials.project')}: ${entry.data.author}`}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                  <line x1="8" y1="21" x2="16" y2="21" />
-                  <line x1="12" y1="17" x2="12" y2="21" />
-                </svg>
-                <span>{t('testimonials.project')}</span>
-              </a>
-            )}
-            {entry.data.sourceUrl && (
-              <a
-                href={entry.data.sourceUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="testimonial-source"
-                aria-label={`${t('testimonials.source')}: ${entry.data.author}`}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                  <polyline points="15 3 21 3 21 9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-              </a>
-            )}
-          </footer>
-        </article>
-      ))}
+              {entry.data.sourceUrl && (
+                <a
+                  href={entry.data.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="testimonial-source"
+                  aria-label={`${t('testimonials.source')}: ${entry.data.author}`}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </a>
+              )}
+            </footer>
+          </article>
+        ))}
+      </div>
     </div>
   </div>
 </section>
 
+<script>
+  const wrapper = document.querySelector('.testimonials-wrapper')
+  const track = document.querySelector('.testimonials-track')
+
+  if (wrapper && track) {
+    track.addEventListener('scroll', () => {
+      wrapper.classList.toggle('is-scrolled', track.scrollLeft > 8)
+    }, { passive: true })
+  }
+</script>
+
 <style>
-  .testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  .testimonials-wrapper {
+    position: relative;
+  }
+
+  /* fade edges to hint at scrollable content */
+  .testimonials-wrapper::before,
+  .testimonials-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 48px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .testimonials-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-bg), transparent);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+  }
+
+  .testimonials-wrapper.is-scrolled::before {
+    opacity: 1;
+  }
+
+  .testimonials-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-bg), transparent);
+  }
+
+  .testimonials-track {
+    display: flex;
     gap: var(--space-xl);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--container-padding);
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--space-sm);
+    scrollbar-width: none;
+  }
+
+  .testimonials-track::-webkit-scrollbar {
+    display: none;
   }
 
   .testimonial-card {
     position: relative;
+    flex: 0 0 380px;
+    max-width: 85vw;
     padding: var(--space-2xl);
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
@@ -103,6 +159,7 @@ const rendered = await Promise.all(
     display: flex;
     flex-direction: column;
     gap: var(--space-lg);
+    scroll-snap-align: start;
   }
 
   .testimonial-card:hover {
@@ -240,24 +297,21 @@ const rendered = await Promise.all(
     background: var(--color-accent-subtle);
   }
 
-  @media (max-width: 1024px) {
-    .testimonials-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
   @media (max-width: 768px) {
-    .testimonials-grid {
-      grid-template-columns: 1fr;
+    .testimonial-card {
+      flex: 0 0 320px;
+      padding: var(--space-xl);
     }
 
-    .testimonial-card {
-      padding: var(--space-xl);
+    .testimonials-wrapper::before,
+    .testimonials-wrapper::after {
+      width: 24px;
     }
   }
 
   @media (max-width: 480px) {
     .testimonial-card {
+      flex: 0 0 280px;
       padding: var(--space-lg);
       gap: var(--space-md);
     }
@@ -287,6 +341,11 @@ const rendered = await Promise.all(
 
     .testimonial-role {
       font-size: 0.625rem;
+    }
+
+    .testimonials-wrapper::before,
+    .testimonials-wrapper::after {
+      width: 16px;
     }
   }
 </style>

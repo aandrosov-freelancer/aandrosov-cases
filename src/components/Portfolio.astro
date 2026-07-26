@@ -20,66 +20,98 @@ const getProjectLink = (id: string) => {
   <div class="container">
     <span class="section-label reveal">{t('portfolio.label')}</span>
     <h2 class="section-title reveal reveal-delay-1">{t('portfolio.title')}</h2>
-  </div>
 
-  <div class="portfolio-track reveal reveal-delay-2">
-    {projects.map((project) => {
-      const link = getProjectLink(project.id)
-      const categoryText = project.data.categoryKey ? t(project.data.categoryKey as any) : project.data.category
-      return (
-        <a href={link} class="portfolio-card">
-          <div class="portfolio-image-wrapper">
-            <img
-              src={project.data.image}
-              alt={`${t('portfolio.altPrefix')} ${project.data.title}`}
-              class="portfolio-image"
-              width="640"
-              height="360"
-              loading="lazy"
-            />
-          </div>
-          <div class="portfolio-info">
-            <span class="portfolio-category">{categoryText}</span>
-            <h3 class="portfolio-title">{project.data.title}</h3>
-          </div>
-        </a>
-      )
-    })}
+    <div class="portfolio-wrapper reveal reveal-delay-2">
+      <div class="portfolio-track">
+        {projects.map((project) => {
+          const link = getProjectLink(project.id)
+          const categoryText = project.data.categoryKey ? t(project.data.categoryKey as any) : project.data.category
+          return (
+            <a href={link} class="portfolio-card">
+              <div class="portfolio-image-wrapper">
+                <img
+                  src={project.data.image}
+                  alt={`${t('portfolio.altPrefix')} ${project.data.title}`}
+                  class="portfolio-image"
+                  width="640"
+                  height="360"
+                  loading="lazy"
+                />
+              </div>
+              <div class="portfolio-info">
+                <span class="portfolio-category">{categoryText}</span>
+                <h3 class="portfolio-title">{project.data.title}</h3>
+              </div>
+            </a>
+          )
+        })}
+      </div>
+    </div>
   </div>
 </section>
 
+<script>
+  const portfolioWrapper = document.querySelector('.portfolio-wrapper')
+  const portfolioTrack = document.querySelector('.portfolio-track')
+
+  if (portfolioWrapper && portfolioTrack) {
+    portfolioTrack.addEventListener('scroll', () => {
+      portfolioWrapper.classList.toggle('is-scrolled', portfolioTrack.scrollLeft > 8)
+    }, { passive: true })
+  }
+</script>
+
 <style>
-  .portfolio {
-    overflow: hidden;
+  .portfolio-wrapper {
+    position: relative;
+  }
+
+  /* fade edges to hint at scrollable content */
+  .portfolio-wrapper::before,
+  .portfolio-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 48px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .portfolio-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-bg), transparent);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+  }
+
+  .portfolio-wrapper.is-scrolled::before {
+    opacity: 1;
+  }
+
+  .portfolio-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-bg), transparent);
   }
 
   .portfolio-track {
     display: flex;
     gap: var(--space-xl);
-    padding-inline: var(--container-padding);
-    padding-bottom: var(--space-xl);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--container-padding);
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-border) transparent;
+    padding-bottom: var(--space-sm);
+    scrollbar-width: none;
   }
 
   .portfolio-track::-webkit-scrollbar {
-    height: 4px;
-  }
-
-  .portfolio-track::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .portfolio-track::-webkit-scrollbar-thumb {
-    background: var(--color-border);
-    border-radius: 2px;
+    display: none;
   }
 
   .portfolio-card {
     flex: 0 0 380px;
+    max-width: 85vw;
     scroll-snap-align: start;
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -134,13 +166,18 @@ const getProjectLink = (id: string) => {
 
   @media (max-width: 768px) {
     .portfolio-card {
-      flex: 0 0 260px;
+      flex: 0 0 320px;
+    }
+
+    .portfolio-wrapper::before,
+    .portfolio-wrapper::after {
+      width: 24px;
     }
   }
 
   @media (max-width: 480px) {
     .portfolio-card {
-      flex: 0 0 220px;
+      flex: 0 0 280px;
     }
 
     .portfolio-info {
@@ -149,6 +186,11 @@ const getProjectLink = (id: string) => {
 
     .portfolio-title {
       font-size: var(--font-size-base);
+    }
+
+    .portfolio-wrapper::before,
+    .portfolio-wrapper::after {
+      width: 16px;
     }
   }
 </style>

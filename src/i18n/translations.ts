@@ -55,14 +55,14 @@ export const translations = {
     // Principles
     'principles.label': 'Принципы',
     'principles.title': 'Чем я руководствуюсь',
-    'principles.quality.title': 'Простота и минимализм',
+    'principles.quality.title': 'Простотой и минимализмом',
     'principles.quality.desc': 'Потребителю не нужны сложные интерфейсы - ему нужно удобное приложение, закрывающее его потребности.',
-    'principles.simplicity.title': 'Эффективность и скорость.',
-    'principles.simplicity.desc': 'Использую премиальные инструменты в своей работе, которые не доступны обычному пользователю.',
-    'principles.responsibility.title': 'Ясность и прозрачность',
+    'principles.simplicity.title': 'Эффективностью и скоростью',
+    'principles.simplicity.desc': 'Использую премиальные инструменты в своей работе, которые не доступны обычному пользователю. Я быстро достигаю качественного результата.',
+    'principles.responsibility.title': 'Ответственностью и прозрачностью',
     'principles.responsibility.desc': 'Веду отчетность о проделанной работе, никогда не оставляю заказчика один на один с собой.',
-    'principles.growth.title': 'Трудолюбивость и благодетель',
-    'principles.growth.desc': 'Я руководствуюсь сердцем, ясностью ума и усердием в работе. Мобильная разработка — это не просто работа, это моя жизнь.',
+    'principles.growth.title': 'Трудолюбивостью и усердием',
+    'principles.growth.desc': 'Я руководствуюсь ясностью ума и усердием в работе. Мобильная разработка — это не просто работа, это моя жизнь.',
 
     // Testimonials
     'testimonials.label': 'Отзывы',
