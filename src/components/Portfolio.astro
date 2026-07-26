@@ -121,6 +121,10 @@ const getProjectLink = (id: string) => {
           targetLeft = 0
         }
 
+        if (isAutoScrollStopped) {
+          if (autoScrollInterval) clearInterval(autoScrollInterval)
+          return
+        }
         isProgrammaticScroll = true
         portfolioTrack.scrollTo({ left: targetLeft, behavior: 'smooth' })
         setTimeout(() => {
