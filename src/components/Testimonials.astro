@@ -24,7 +24,11 @@ const rendered = await Promise.all(
     <div class="testimonials-wrapper reveal reveal-delay-2">
       <div class="testimonials-track">
         {rendered.map(({ entry, Content }) => (
-          <article class="testimonial-card">
+          <article
+            class="testimonial-card"
+            data-source-url={entry.data.sourceUrl}
+            tabindex={entry.data.sourceUrl ? 0 : undefined}
+          >
             <div class="testimonial-quote" aria-hidden="true">"</div>
 
             <div class="testimonial-body">
@@ -97,6 +101,37 @@ const rendered = await Promise.all(
       wrapper.classList.toggle('is-scrolled', track.scrollLeft > 8)
     }, { passive: true })
   }
+
+  const testimonialCards = document.querySelectorAll<HTMLElement>('.testimonial-card[data-source-url]')
+  testimonialCards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement
+      if (target.closest('a') || target.closest('button')) {
+        return
+      }
+      if (window.getSelection()?.toString()) {
+        return
+      }
+      const url = card.dataset.sourceUrl
+      if (url) {
+        window.open(url, '_blank', 'noopener,noreferrer')
+      }
+    })
+
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const target = e.target as HTMLElement
+        if (target.closest('a') || target.closest('button')) {
+          return
+        }
+        e.preventDefault()
+        const url = card.dataset.sourceUrl
+        if (url) {
+          window.open(url, '_blank', 'noopener,noreferrer')
+        }
+      }
+    })
+  })
 </script>
 
 <style>
@@ -139,12 +174,48 @@ const rendered = await Promise.all(
     scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--container-padding);
     -webkit-overflow-scrolling: touch;
+    padding-top: var(--space-lg);
     padding-bottom: var(--space-sm);
-    scrollbar-width: none;
   }
 
-  .testimonials-track::-webkit-scrollbar {
-    display: none;
+  @media (max-width: 768px) {
+    .testimonials-track {
+      scrollbar-width: none;
+    }
+
+    .testimonials-track::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .testimonials-track {
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-border-hover) var(--color-bg-card);
+      padding-top: var(--space-lg);
+      padding-bottom: var(--space-md);
+    }
+
+    .testimonials-track::-webkit-scrollbar {
+      display: block;
+      height: 8px;
+    }
+
+    .testimonials-track::-webkit-scrollbar-track {
+      background: var(--color-bg-card);
+      border-radius: 4px;
+    }
+
+    .testimonials-track::-webkit-scrollbar-thumb {
+      background: var(--color-border-hover);
+      border-radius: 4px;
+      border: 2px solid var(--color-bg-card);
+      transition: background var(--transition-fast);
+    }
+
+    .testimonials-track::-webkit-scrollbar-thumb:hover {
+      background: var(--color-accent);
+    }
   }
 
   .testimonial-card {
@@ -162,9 +233,13 @@ const rendered = await Promise.all(
     scroll-snap-align: start;
   }
 
+  .testimonial-card[data-source-url] {
+    cursor: pointer;
+  }
+
   .testimonial-card:hover {
     border-color: var(--color-border-hover);
-    transform: translateY(-2px);
+    transform: translateY(-4px);
   }
 
   .testimonial-quote {

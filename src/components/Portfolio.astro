@@ -101,12 +101,48 @@ const getProjectLink = (id: string) => {
     scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--container-padding);
     -webkit-overflow-scrolling: touch;
+    padding-top: var(--space-lg);
     padding-bottom: var(--space-sm);
-    scrollbar-width: none;
   }
 
-  .portfolio-track::-webkit-scrollbar {
-    display: none;
+  @media (max-width: 768px) {
+    .portfolio-track {
+      scrollbar-width: none;
+    }
+
+    .portfolio-track::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .portfolio-track {
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-border-hover) var(--color-bg-card);
+      padding-top: var(--space-lg);
+      padding-bottom: var(--space-md);
+    }
+
+    .portfolio-track::-webkit-scrollbar {
+      display: block;
+      height: 8px;
+    }
+
+    .portfolio-track::-webkit-scrollbar-track {
+      background: var(--color-bg-card);
+      border-radius: 4px;
+    }
+
+    .portfolio-track::-webkit-scrollbar-thumb {
+      background: var(--color-border-hover);
+      border-radius: 4px;
+      border: 2px solid var(--color-bg-card);
+      transition: background var(--transition-fast);
+    }
+
+    .portfolio-track::-webkit-scrollbar-thumb:hover {
+      background: var(--color-accent);
+    }
   }
 
   .portfolio-card {

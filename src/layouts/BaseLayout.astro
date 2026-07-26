@@ -1,6 +1,5 @@
 ---
 import { getLangFromLocale, useTranslations, getAlternateLangPath, getAlternateLang } from '../i18n/utils'
-import { languages } from '../i18n/translations'
 
 interface Props {
   title?: string
@@ -38,7 +37,6 @@ const alternatePath = getAlternateLangPath(lang)
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.svg" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
