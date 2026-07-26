@@ -97,12 +97,29 @@ const rendered = await Promise.all(
   const track = document.querySelector('.testimonials-track') as HTMLElement
 
   if (wrapper && track) {
+    let isAutoScrollStopped = false
+    let autoScrollInterval: number | undefined
+    let isProgrammaticScroll = false
+
+    const stopAutoScrollPermanently = () => {
+      if (isAutoScrollStopped) return
+      isAutoScrollStopped = true
+      if (autoScrollInterval) {
+        clearInterval(autoScrollInterval)
+        autoScrollInterval = undefined
+      }
+    }
+
+    wrapper.addEventListener('pointerdown', stopAutoScrollPermanently, { passive: true })
+    wrapper.addEventListener('touchstart', stopAutoScrollPermanently, { passive: true })
+    wrapper.addEventListener('wheel', stopAutoScrollPermanently, { passive: true })
+
     track.addEventListener('scroll', () => {
       wrapper.classList.toggle('is-scrolled', track.scrollLeft > 8)
+      if (!isProgrammaticScroll) {
+        stopAutoScrollPermanently()
+      }
     }, { passive: true })
-
-    let isInteracting = false
-    let autoScrollInterval: number | undefined
 
     const getClosestCardIndex = () => {
       const cards = Array.from(track.children) as HTMLElement[]
@@ -126,7 +143,10 @@ const rendered = await Promise.all(
     const startAutoScroll = () => {
       if (autoScrollInterval) clearInterval(autoScrollInterval)
       autoScrollInterval = window.setInterval(() => {
-        if (isInteracting) return
+        if (isAutoScrollStopped) {
+          if (autoScrollInterval) clearInterval(autoScrollInterval)
+          return
+        }
         const cards = Array.from(track.children) as HTMLElement[]
         if (cards.length < 2) return
 
@@ -143,16 +163,13 @@ const rendered = await Promise.all(
           targetLeft = 0
         }
 
+        isProgrammaticScroll = true
         track.scrollTo({ left: targetLeft, behavior: 'smooth' })
+        setTimeout(() => {
+          isProgrammaticScroll = false
+        }, 800)
       }, 3500)
     }
-
-    wrapper.addEventListener('mouseenter', () => { isInteracting = true })
-    wrapper.addEventListener('mouseleave', () => { isInteracting = false })
-    wrapper.addEventListener('touchstart', () => { isInteracting = true }, { passive: true })
-    wrapper.addEventListener('touchend', () => {
-      setTimeout(() => { isInteracting = false }, 1000)
-    }, { passive: true })
 
     startAutoScroll()
   }
