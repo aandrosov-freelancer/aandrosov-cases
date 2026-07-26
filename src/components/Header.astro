@@ -14,11 +14,11 @@ const alternatePath = getAlternateLangPath(lang)
 
     <!-- Desktop nav -->
     <nav class="header-nav header-nav--desktop" aria-label={t('nav.ariaLabel')}>
-      <a href="#portfolio" class="header-link">{t('nav.portfolio')}</a>
-      <a href="#about" class="header-link">{t('nav.about')}</a>
-      <a href="#principles" class="header-link">{t('nav.principles')}</a>
-      <a href="#testimonials" class="header-link">{t('nav.testimonials')}</a>
-      <a href="#contact" class="header-link">{t('nav.contact')}</a>
+      <a href="/#portfolio" class="header-link">{t('nav.portfolio')}</a>
+      <a href="/#about" class="header-link">{t('nav.about')}</a>
+      <a href="/#principles" class="header-link">{t('nav.principles')}</a>
+      <a href="/#testimonials" class="header-link">{t('nav.testimonials')}</a>
+      <a href="/#contact" class="header-link">{t('nav.contact')}</a>
       <a href={alternatePath} class="header-lang" aria-label={`Switch to ${languages[alternateLang]}`}>
         {alternateLang.toUpperCase()}
       </a>
