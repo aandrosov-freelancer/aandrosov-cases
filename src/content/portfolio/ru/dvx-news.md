@@ -6,7 +6,7 @@ image: "/images/dvx-news.png"
 order: 3
 lang: "ru"
 role: "Android Developer"
-year: "2024"
+year: "2023"
 client: "DVX"
 tags: ["Kotlin", "Jetpack Compose", "Clean Architecture", "MVVM"]
 appStoreUrl: "https://apps.apple.com/nl/app/dvx-news"
