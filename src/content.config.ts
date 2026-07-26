@@ -32,6 +32,7 @@ const testimonials = defineCollection({
     lang: z.enum(['ru', 'en']).default('ru'),
     avatar: z.string().optional(),
     sourceUrl: z.string().url().optional(),
+    projectUrl: z.string().optional(),
   }),
 })
 

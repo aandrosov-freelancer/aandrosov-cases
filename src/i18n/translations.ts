@@ -68,6 +68,7 @@ export const translations = {
     'testimonials.label': 'Отзывы',
     'testimonials.title': 'Что говорят клиенты',
     'testimonials.source': 'Источник',
+    'testimonials.project': 'Проект',
 
     // Contact
     'contact.label': 'Связаться',
@@ -144,6 +145,7 @@ export const translations = {
     'testimonials.label': 'Testimonials',
     'testimonials.title': 'What clients say',
     'testimonials.source': 'Source',
+    'testimonials.project': 'Project',
 
     // Contact
     'contact.label': 'Contact',

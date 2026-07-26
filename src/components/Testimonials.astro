@@ -50,6 +50,20 @@ const rendered = await Promise.all(
               <span class="testimonial-author">{entry.data.author}</span>
               <span class="testimonial-role">{entry.data.role}</span>
             </div>
+            {entry.data.projectUrl && (
+              <a
+                href={entry.data.projectUrl}
+                class="testimonial-project"
+                aria-label={`${t('testimonials.project')}: ${entry.data.author}`}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                  <line x1="8" y1="21" x2="16" y2="21" />
+                  <line x1="12" y1="17" x2="12" y2="21" />
+                </svg>
+                <span>{t('testimonials.project')}</span>
+              </a>
+            )}
             {entry.data.sourceUrl && (
               <a
                 href={entry.data.sourceUrl}
@@ -186,6 +200,27 @@ const rendered = await Promise.all(
   .testimonial-role {
     font-size: var(--font-size-xs);
     color: var(--color-text-muted);
+  }
+
+  .testimonial-project {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+    margin-left: auto;
+  }
+
+  .testimonial-project:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: var(--color-accent-subtle);
   }
 
   .testimonial-source {
