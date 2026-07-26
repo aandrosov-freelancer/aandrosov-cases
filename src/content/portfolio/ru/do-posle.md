@@ -1,6 +1,6 @@
 ---
 title: "DoPosle"
-description: "Сервис услуга клининга"
+description: "Сервис услуг клининга"
 category: "Услуги"
 image: "/images/do-posle.png"
 order: 2
