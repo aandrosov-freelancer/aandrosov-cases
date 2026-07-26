@@ -5,10 +5,24 @@ category: "Новости"
 image: "/images/dvx-news.png"
 order: 3
 lang: "ru"
-role: "Flutter Developer"
+role: "Android Developer"
 year: "2024"
-client: "Love Republic"
-tags: ["Flutter", "Dart", "Clean Architecture", "MVVM"]
-appStoreUrl: "https://apps.apple.com/nl/app/love-republic-%D0%BE%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD-%D1%88%D0%BE%D0%BF%D0%B8%D0%BD%D0%B3/id1162610903"
-googlePlayUrl: "https://play.google.com/store/apps/details?id=com.ddgcorp.loverepublicmfg"
+client: "DVX"
+tags: ["Kotlin", "Jetpack Compose", "Clean Architecture", "MVVM"]
+appStoreUrl: "https://apps.apple.com/nl/app/dvx-news"
+googlePlayUrl: "https://play.google.com/store/apps/details?id=dvx.news.app"
 ---
+
+## О проекте
+
+DVX News - мобильное приложение для просмотра новостей в Германии на немецком
+языке. Приложение стремится сохранить простоту и элегантность интерфейса, но
+максимальное заставить пользователя пользоваться приложением через
+интерактивность.
+
+## Мои обязанности
+
+Моими обязанностями была разработка мобильного приложения с абсолютного нуля,
+проектировать исходный код проекта так, чтобы дальнейшие изменения не приводили
+к поломки кода и большим затратам на реализацию. Тесно взаимодействовать с
+командой, проводить созвоны и встречи, а также курировать разработку.

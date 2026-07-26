@@ -1,14 +1,25 @@
 ---
 title: "DoPosle"
-description: "Магазин одежды для женщин"
+description: "Сервис услуга клининга"
 category: "Услуги"
 image: "/images/do-posle.png"
 order: 2
 lang: "ru"
 role: "Flutter Developer"
 year: "2024"
-client: "Love Republic"
+client: "DoPosle"
 tags: ["Flutter", "Dart", "Clean Architecture", "MVVM"]
-appStoreUrl: "https://apps.apple.com/nl/app/love-republic-%D0%BE%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD-%D1%88%D0%BE%D0%BF%D0%B8%D0%BD%D0%B3/id1162610903"
-googlePlayUrl: "https://play.google.com/store/apps/details?id=com.ddgcorp.loverepublicmfg"
+appStoreUrl: "https://apps.apple.com/nl/app/doposle-home-services/id6478013893"
+googlePlayUrl: "https://play.google.com/store/apps/details?id=doposle.app"
 ---
+
+## О проекте
+
+DoPosle - это мобильное приложение для заказа клининговых услуг в Дубае с
+огромным количеством исоплнителей и заказчиков.
+
+## Мои обязанности
+
+Я проектировал и разрабатывал архитектуру мобильного приложения с нуля, помог
+клиенту привлечь исполнителей в приложение и увеличил продажи на 60% за 2
+месяца.
