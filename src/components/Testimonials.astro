@@ -93,13 +93,68 @@ const rendered = await Promise.all(
 </section>
 
 <script>
-  const wrapper = document.querySelector('.testimonials-wrapper')
-  const track = document.querySelector('.testimonials-track')
+  const wrapper = document.querySelector('.testimonials-wrapper') as HTMLElement
+  const track = document.querySelector('.testimonials-track') as HTMLElement
 
   if (wrapper && track) {
     track.addEventListener('scroll', () => {
       wrapper.classList.toggle('is-scrolled', track.scrollLeft > 8)
     }, { passive: true })
+
+    let isInteracting = false
+    let autoScrollInterval: number | undefined
+
+    const getClosestCardIndex = () => {
+      const cards = Array.from(track.children) as HTMLElement[]
+      if (cards.length === 0) return 0
+      const firstOffset = cards[0].offsetLeft
+      const currentScroll = track.scrollLeft
+      let minDiff = Infinity
+      let closestIdx = 0
+
+      cards.forEach((card, idx) => {
+        const pos = card.offsetLeft - firstOffset
+        const diff = Math.abs(currentScroll - pos)
+        if (diff < minDiff) {
+          minDiff = diff
+          closestIdx = idx
+        }
+      })
+      return closestIdx
+    }
+
+    const startAutoScroll = () => {
+      if (autoScrollInterval) clearInterval(autoScrollInterval)
+      autoScrollInterval = window.setInterval(() => {
+        if (isInteracting) return
+        const cards = Array.from(track.children) as HTMLElement[]
+        if (cards.length < 2) return
+
+        const maxScroll = track.scrollWidth - track.clientWidth
+        if (maxScroll <= 0) return
+
+        const currentIdx = getClosestCardIndex()
+        let nextIdx = currentIdx + 1
+
+        const firstOffset = cards[0].offsetLeft
+        let targetLeft = cards[nextIdx] ? cards[nextIdx].offsetLeft - firstOffset : 0
+
+        if (nextIdx >= cards.length || targetLeft > maxScroll + 5) {
+          targetLeft = 0
+        }
+
+        track.scrollTo({ left: targetLeft, behavior: 'smooth' })
+      }, 3500)
+    }
+
+    wrapper.addEventListener('mouseenter', () => { isInteracting = true })
+    wrapper.addEventListener('mouseleave', () => { isInteracting = false })
+    wrapper.addEventListener('touchstart', () => { isInteracting = true }, { passive: true })
+    wrapper.addEventListener('touchend', () => {
+      setTimeout(() => { isInteracting = false }, 1000)
+    }, { passive: true })
+
+    startAutoScroll()
   }
 
   const testimonialCards = document.querySelectorAll<HTMLElement>('.testimonial-card[data-source-url]')

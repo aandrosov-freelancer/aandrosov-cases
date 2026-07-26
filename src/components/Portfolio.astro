@@ -51,13 +51,68 @@ const getProjectLink = (id: string) => {
 </section>
 
 <script>
-  const portfolioWrapper = document.querySelector('.portfolio-wrapper')
-  const portfolioTrack = document.querySelector('.portfolio-track')
+  const portfolioWrapper = document.querySelector('.portfolio-wrapper') as HTMLElement
+  const portfolioTrack = document.querySelector('.portfolio-track') as HTMLElement
 
   if (portfolioWrapper && portfolioTrack) {
     portfolioTrack.addEventListener('scroll', () => {
       portfolioWrapper.classList.toggle('is-scrolled', portfolioTrack.scrollLeft > 8)
     }, { passive: true })
+
+    let isInteracting = false
+    let autoScrollInterval: number | undefined
+
+    const getClosestCardIndex = () => {
+      const cards = Array.from(portfolioTrack.children) as HTMLElement[]
+      if (cards.length === 0) return 0
+      const firstOffset = cards[0].offsetLeft
+      const currentScroll = portfolioTrack.scrollLeft
+      let minDiff = Infinity
+      let closestIdx = 0
+
+      cards.forEach((card, idx) => {
+        const pos = card.offsetLeft - firstOffset
+        const diff = Math.abs(currentScroll - pos)
+        if (diff < minDiff) {
+          minDiff = diff
+          closestIdx = idx
+        }
+      })
+      return closestIdx
+    }
+
+    const startAutoScroll = () => {
+      if (autoScrollInterval) clearInterval(autoScrollInterval)
+      autoScrollInterval = window.setInterval(() => {
+        if (isInteracting) return
+        const cards = Array.from(portfolioTrack.children) as HTMLElement[]
+        if (cards.length < 2) return
+
+        const maxScroll = portfolioTrack.scrollWidth - portfolioTrack.clientWidth
+        if (maxScroll <= 0) return
+
+        const currentIdx = getClosestCardIndex()
+        let nextIdx = currentIdx + 1
+
+        const firstOffset = cards[0].offsetLeft
+        let targetLeft = cards[nextIdx] ? cards[nextIdx].offsetLeft - firstOffset : 0
+
+        if (nextIdx >= cards.length || targetLeft > maxScroll + 5) {
+          targetLeft = 0
+        }
+
+        portfolioTrack.scrollTo({ left: targetLeft, behavior: 'smooth' })
+      }, 3500)
+    }
+
+    portfolioWrapper.addEventListener('mouseenter', () => { isInteracting = true })
+    portfolioWrapper.addEventListener('mouseleave', () => { isInteracting = false })
+    portfolioWrapper.addEventListener('touchstart', () => { isInteracting = true }, { passive: true })
+    portfolioWrapper.addEventListener('touchend', () => {
+      setTimeout(() => { isInteracting = false }, 1000)
+    }, { passive: true })
+
+    startAutoScroll()
   }
 </script>
 
