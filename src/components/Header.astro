@@ -17,6 +17,7 @@ const alternatePath = getAlternateLangPath(lang)
       <a href="#portfolio" class="header-link">{t('nav.portfolio')}</a>
       <a href="#about" class="header-link">{t('nav.about')}</a>
       <a href="#principles" class="header-link">{t('nav.principles')}</a>
+      <a href="#testimonials" class="header-link">{t('nav.testimonials')}</a>
       <a href="#contact" class="header-link">{t('nav.contact')}</a>
       <a href={alternatePath} class="header-lang" aria-label={`Switch to ${languages[alternateLang]}`}>
         {alternateLang.toUpperCase()}
@@ -46,6 +47,7 @@ const alternatePath = getAlternateLangPath(lang)
       <a href="#portfolio" class="header-mobile-link">{t('nav.portfolio')}</a>
       <a href="#about" class="header-mobile-link">{t('nav.about')}</a>
       <a href="#principles" class="header-mobile-link">{t('nav.principles')}</a>
+      <a href="#testimonials" class="header-mobile-link">{t('nav.testimonials')}</a>
       <a href="#contact" class="header-mobile-link">{t('nav.contact')}</a>
     </nav>
   </div>
@@ -292,6 +294,7 @@ const alternatePath = getAlternateLangPath(lang)
     .header-mobile-link:nth-child(2) { transition-delay: 0.1s; }
     .header-mobile-link:nth-child(3) { transition-delay: 0.15s; }
     .header-mobile-link:nth-child(4) { transition-delay: 0.2s; }
+    .header-mobile-link:nth-child(5) { transition-delay: 0.25s; }
 
     .header-mobile-link:hover,
     .header-mobile-link:active {

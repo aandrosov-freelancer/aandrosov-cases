@@ -18,6 +18,7 @@ export const translations = {
     'nav.portfolio': 'Портфолио',
     'nav.about': 'О себе',
     'nav.principles': 'Принципы',
+    'nav.testimonials': 'Отзывы',
     'nav.contact': 'Связаться',
     'nav.ariaLabel': 'Основная навигация',
 
@@ -63,6 +64,11 @@ export const translations = {
     'principles.growth.title': 'Трудолюбивость и благодетель',
     'principles.growth.desc': 'Я руководствуюсь сердцем, ясностью ума и усердием в работе. Мобильная разработка — это не просто работа, это моя жизнь.',
 
+    // Testimonials
+    'testimonials.label': 'Отзывы',
+    'testimonials.title': 'Что говорят клиенты',
+    'testimonials.source': 'Источник',
+
     // Contact
     'contact.label': 'Связаться',
     'contact.title.line1': 'Давайте двигать',
@@ -88,6 +94,7 @@ export const translations = {
     'nav.portfolio': 'Portfolio',
     'nav.about': 'About',
     'nav.principles': 'Principles',
+    'nav.testimonials': 'Testimonials',
     'nav.contact': 'Contact',
     'nav.ariaLabel': 'Main navigation',
 
@@ -132,6 +139,11 @@ export const translations = {
     'principles.responsibility.desc': 'I maintain clear reporting on all progress and never leave clients in the dark.',
     'principles.growth.title': 'Diligence & Integrity',
     'principles.growth.desc': 'I am guided by passion, clarity of mind, and dedication. Mobile development is not just my job — it is my life.',
+
+    // Testimonials
+    'testimonials.label': 'Testimonials',
+    'testimonials.title': 'What clients say',
+    'testimonials.source': 'Source',
 
     // Contact
     'contact.label': 'Contact',
